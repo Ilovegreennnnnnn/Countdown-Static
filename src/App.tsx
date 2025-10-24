@@ -36,13 +36,6 @@ function App() {
       </div>
 
       <Counter referenceDate={REFERENCE_DATE} activeUnit={activeUnit} />
-
-      <footer className="footer">
-        <p>
-          Hébergé statiquement sur Vercel – aucun serveur n&apos;est nécessaire pour ce
-          décompte.
-        </p>
-      </footer>
     </main>
   );
 }
