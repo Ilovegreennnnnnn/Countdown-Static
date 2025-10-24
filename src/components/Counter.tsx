@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
-import { diffFromNow, splitTimeParts, formatNumber, TimeUnit, TimeParts, UNIT_LABELS } from "../lib/time";
+import {
+  diffFromNow,
+  splitTimeParts,
+  formatNumber,
+  TimeUnit,
+  TimeParts,
+  UNIT_LABELS,
+  Language
+} from "../lib/time";
 
 type CounterProps = {
   referenceDate: Date;
   activeUnit: TimeUnit;
+  language: Language;
+  locale: string;
 };
 
 const FRACTION_DIGITS: Record<TimeUnit, number> = {
@@ -19,7 +29,7 @@ const FRACTION_DIGITS: Record<TimeUnit, number> = {
 const initialState = (referenceDate: Date): TimeParts =>
   splitTimeParts(diffFromNow(referenceDate));
 
-export const Counter = ({ referenceDate, activeUnit }: CounterProps) => {
+export const Counter = ({ referenceDate, activeUnit, language, locale }: CounterProps) => {
   const [parts, setParts] = useState<TimeParts>(() => initialState(referenceDate));
 
   useEffect(() => {
@@ -31,14 +41,18 @@ export const Counter = ({ referenceDate, activeUnit }: CounterProps) => {
   }, [referenceDate]);
 
   const activeValue = parts[activeUnit];
+  const labels = UNIT_LABELS[language];
 
   return (
     <section className="counter">
       <div className="counter__current" role="status" aria-live="polite">
         <span className="counter__current-value">
-          {formatNumber(activeValue, FRACTION_DIGITS[activeUnit])}
+          {formatNumber(activeValue, {
+            maximumFractionDigits: FRACTION_DIGITS[activeUnit],
+            locale
+          })}
         </span>
-        <span className="counter__current-label">{UNIT_LABELS[activeUnit]}</span>
+        <span className="counter__current-label">{labels[activeUnit]}</span>
       </div>
     </section>
   );

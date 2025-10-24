@@ -7,6 +7,8 @@ export type TimeUnit =
   | "years"
   | "centuries";
 
+export type Language = "fr" | "es";
+
 export const TIME_UNITS: TimeUnit[] = [
   "seconds",
   "minutes",
@@ -17,14 +19,25 @@ export const TIME_UNITS: TimeUnit[] = [
   "centuries"
 ] as const;
 
-export const UNIT_LABELS: Record<TimeUnit, string> = {
-  seconds: "Secondes",
-  minutes: "Minutes",
-  hours: "Heures",
-  days: "Jours",
-  weeks: "Semaines",
-  years: "Années",
-  centuries: "Siècles"
+export const UNIT_LABELS: Record<Language, Record<TimeUnit, string>> = {
+  fr: {
+    seconds: "Secondes",
+    minutes: "Minutes",
+    hours: "Heures",
+    days: "Jours",
+    weeks: "Semaines",
+    years: "Années",
+    centuries: "Siècles"
+  },
+  es: {
+    seconds: "Segundos",
+    minutes: "Minutos",
+    hours: "Horas",
+    days: "Días",
+    weeks: "Semanas",
+    years: "Años",
+    centuries: "Siglos"
+  }
 };
 
 const MILLIS = {
@@ -65,17 +78,25 @@ export const splitTimeParts = (diffMs: number): TimeParts => ({
   centuries: diffMs / MILLIS.century
 });
 
+export interface FormatNumberOptions {
+  maximumFractionDigits?: number;
+  minimumFractionDigits?: number;
+  locale?: string;
+}
+
 export const formatNumber = (
   value: number,
-  maximumFractionDigits = 2,
-  minimumFractionDigits?: number
-): string =>
-  new Intl.NumberFormat("fr-FR", {
+  { maximumFractionDigits = 2, minimumFractionDigits, locale = "fr-FR" }: FormatNumberOptions = {}
+): string => {
+  const resolvedMinimum =
+    minimumFractionDigits !== undefined
+      ? minimumFractionDigits
+      : value < 10
+      ? Math.min(2, maximumFractionDigits)
+      : 0;
+
+  return new Intl.NumberFormat(locale, {
     maximumFractionDigits,
-    minimumFractionDigits:
-      minimumFractionDigits !== undefined
-        ? minimumFractionDigits
-        : value < 10
-        ? Math.min(2, maximumFractionDigits)
-        : 0
+    minimumFractionDigits: resolvedMinimum
   }).format(value);
+};

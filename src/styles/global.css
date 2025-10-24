@@ -59,33 +59,28 @@ body {
 .unit-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1.4rem;
+  justify-content: center;
+  padding: 0.9rem 1.6rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(15, 23, 42, 0.55);
   color: inherit;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.2s ease;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.unit-switch:hover {
+.unit-switch:hover,
+.unit-switch:focus-visible {
   transform: translateY(-1px);
   border-color: rgba(245, 158, 11, 0.6);
-  background: rgba(245, 158, 11, 0.12);
-}
-
-.unit-switch__label {
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: #9ca3af;
-}
-
-.unit-switch__value {
-  font-weight: 600;
-  color: #f3f4f6;
+  background: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.15);
+  outline: none;
 }
 
 .counter {
@@ -120,4 +115,42 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #9ca3af;
+}
+
+.language-switch {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.language-switch__btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.language-switch__btn:hover,
+.language-switch__btn:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 10px 24px rgba(245, 158, 11, 0.15);
+  outline: none;
+}
+
+.language-switch__btn[aria-pressed="true"] {
+  border-color: rgba(245, 158, 11, 0.8);
+  background: rgba(245, 158, 11, 0.2);
 }
